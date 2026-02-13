@@ -382,8 +382,8 @@ export function Tango() {
                 Tango
               </h1>
               <p className="text-gray-700 text-lg">
-                Fill the grid with Her and Him, following the
-                logic rules!
+                Fill the grid with Yourself and me, following the
+                classic rules!
               </p>
               <button
                 onClick={handleStart}
@@ -532,7 +532,7 @@ export function Tango() {
             className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4 text-sm space-y-2"
           >
             <p>
-              ✓ Each row and column must have 4 Her and 4 Him
+              ✓ Each row and column must have 4 Jules and 4 Lors
             </p>
             <p>✓ Max 2 of the same type can be adjacent</p>
             <p>
@@ -674,7 +674,7 @@ export function Tango() {
 
           <div className="text-center mb-3">
             <p className="text-sm text-gray-600">
-              Click empty cells to cycle: Empty → Her → Him →
+              Click empty cells to cycle: Empty → Jules → Lor →
               Empty
             </p>
             <p className="text-xs text-purple-600 mt-1">

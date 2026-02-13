@@ -35,7 +35,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Things I Love About You",
-    words: ["Empathy", "Funny", "Smart", "Sassy"],
+    words: ["Empathy", "Funny", "Gorgeous", "Sassy"],
     color: "purple",
     bgColor: "bg-purple-100",
     borderColor: "border-purple-300",

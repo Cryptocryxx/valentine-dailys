@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const WORD = 'HUMOR';
+const WORD = 'FUNNY';
 const MAX_ATTEMPTS = 6;
 const RETRY_PASSWORD = 'lor is just a superior human';
 

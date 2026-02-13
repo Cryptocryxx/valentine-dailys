@@ -319,6 +319,32 @@ export function Queens() {
     }
   };
 
+  const handleTouchStart = (e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault();
+    handleDragStart(row, col);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (element) {
+      const cellButton = element.closest('[data-cell]');
+      if (cellButton) {
+        const cellKey = cellButton.getAttribute('data-cell');
+        if (cellKey) {
+          const pos = keyToPos(cellKey);
+          handleDragOver(pos.row, pos.col);
+        }
+      }
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault();
+    handleDragEnd(row, col);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 p-4 flex flex-col items-center justify-center overflow-y-auto">
       {/* Start Overlay */}
@@ -530,6 +556,9 @@ export function Queens() {
                         handleDragOver(rowIndex, colIndex);
                       }}
                       onMouseLeave={() => setHoveredCell(null)}
+                      onTouchStart={(e) => handleTouchStart(e, rowIndex, colIndex)}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={(e) => handleTouchEnd(e, rowIndex, colIndex)}
                       className={`
                         aspect-square w-7 sm:w-10 md:w-12 lg:w-14 
                         ${REGION_COLORS[region]}
@@ -551,6 +580,7 @@ export function Queens() {
                           : {}
                       }
                       transition={{ duration: 0.4 }}
+                      data-cell={key}
                     >
                       {hasQueen && (
                         <motion.div
