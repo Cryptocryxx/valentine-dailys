@@ -659,17 +659,6 @@ export function Queens() {
             </div>
           </div>
         </div>
-
-        {/* Instructions */}
-        <div className="bg-white rounded-xl p-6 shadow-md space-y-3 max-w-md mx-auto">
-          <h3 className="font-bold text-gray-800">Rules:</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li>• One Jules per row</li>
-            <li>• One Jules per column</li>
-            <li>• One Jules per colored region</li>
-            <li>• No Jules may touch (including diagonally)</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
