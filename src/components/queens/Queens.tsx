@@ -397,7 +397,7 @@ export function Queens() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 p-4 flex flex-col items-center justify-center overflow-y-auto">
+    <div className="min-h-screen max-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 p-4 flex flex-col items-center justify-center overflow-hidden">
       {/* Start Overlay */}
       <AnimatePresence>
         {!gameStarted && (
@@ -607,9 +607,10 @@ export function Queens() {
                         handleDragOver(rowIndex, colIndex);
                       }}
                       onMouseLeave={() => setHoveredCell(null)}
-                      onTouchStart={(e) => handleTouchStart(e, rowIndex, colIndex)}
-                      onTouchMove={handleTouchMove}
-                      onTouchEnd={(e) => handleTouchEnd(e, rowIndex, colIndex)}
+                      onTouchStart={(e) => {
+                        e.preventDefault();
+                        handleDragStart(rowIndex, colIndex);
+                      }}
                       className={`
                         aspect-square w-7 sm:w-10 md:w-12 lg:w-14 
                         ${REGION_COLORS[region]}
