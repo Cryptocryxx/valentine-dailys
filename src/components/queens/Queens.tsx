@@ -87,6 +87,57 @@ export function Queens() {
     }
   }, [gameStarted, gameWon]);
 
+  // Global touch event handlers for dragging
+  useEffect(() => {
+    if (!dragStartCell) return;
+
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element) {
+        const cellButton = element.closest('[data-cell]');
+        if (cellButton) {
+          const cellKey = cellButton.getAttribute('data-cell');
+          if (cellKey) {
+            const pos = keyToPos(cellKey);
+            handleDragOver(pos.row, pos.col);
+          }
+        }
+      }
+    };
+
+    const handleGlobalTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element) {
+        const cellButton = element.closest('[data-cell]');
+        if (cellButton) {
+          const cellKey = cellButton.getAttribute('data-cell');
+          if (cellKey) {
+            const pos = keyToPos(cellKey);
+            handleDragEnd(pos.row, pos.col);
+            return;
+          }
+        }
+      }
+      // If we didn't find a cell, just end the drag
+      setIsDragging(false);
+      setDragMode(null);
+      setDragStartCell(null);
+      setHasAppliedStartCell(false);
+    };
+
+    document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+    document.addEventListener('touchend', handleGlobalTouchEnd, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
+    };
+  }, [dragStartCell, dragMode, xMarks, queens, gameWon, hasAppliedStartCell]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
