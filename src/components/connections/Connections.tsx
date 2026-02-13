@@ -69,6 +69,10 @@ export function Connections() {
   const [animatingWords, setAnimatingWords] = useState<
     string[]
   >([]);
+  const [showFailOverlay, setShowFailOverlay] = useState(false);
+  const [failPassword, setFailPassword] = useState("");
+  const [failPasswordError, setFailPasswordError] = useState(false);
+  const [showOneAway, setShowOneAway] = useState(false);
 
   useEffect(() => {
     // Shuffle all words on initial load
@@ -140,20 +144,26 @@ export function Connections() {
       setShakeIncorrect(true);
       setTimeout(() => setShakeIncorrect(false), 500);
 
+      // Check if it was "one away" (3 out of 4 correct)
+      const hasOneAway = CATEGORIES.some((category) => {
+        const matchCount = selectedWords.filter((word) =>
+          category.words.includes(word)
+        ).length;
+        return matchCount === 3;
+      });
+
+      if (hasOneAway) {
+        setShowOneAway(true);
+        // Hide after a few seconds
+        setTimeout(() => setShowOneAway(false), 3000);
+      }
+
       const newMistakes = mistakesLeft - 1;
       setMistakesLeft(newMistakes);
 
       if (newMistakes === 0) {
         setGameFailed(true);
-        // Reveal all remaining categories
-        const remaining = CATEGORIES.filter(
-          (cat) => !solvedCategories.includes(cat),
-        );
-        setSolvedCategories([
-          ...solvedCategories,
-          ...remaining,
-        ]);
-        setAllWords([]);
+        setShowFailOverlay(true);
       }
     }
   };
@@ -174,6 +184,18 @@ export function Connections() {
 
   const deselectAll = () => {
     setSelectedWords([]);
+  };
+
+  const handleFailPasswordSubmit = () => {
+    if (failPassword.trim().toLowerCase() === "sinaasappel") {
+      setShowFailOverlay(false);
+      setFailPassword("");
+      setFailPasswordError(false);
+      handleReset();
+    } else {
+      setFailPasswordError(true);
+      setTimeout(() => setFailPasswordError(false), 500);
+    }
   };
 
   return (
@@ -223,6 +245,66 @@ export function Connections() {
           ))}
         </div>
       )}
+
+      {/* Fail Overlay with Password */}
+      <AnimatePresence>
+        {showFailOverlay && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl p-8 shadow-2xl max-w-md w-full space-y-6"
+            >
+              <div className="text-center space-y-4">
+                <h2 className="text-3xl font-bold text-rose-600">
+                  Oh no!
+                </h2>
+                <p className="text-gray-700 text-lg">
+                  You ran out of tries! But don't worry, if you know
+                  the secret password, you can still continue...
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={failPassword}
+                  onChange={(e) => setFailPassword(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleFailPasswordSubmit();
+                    }
+                  }}
+                  placeholder="Enter the secret password"
+                  className={`w-full px-4 py-3 border-2 rounded-lg text-center text-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-all ${
+                    failPasswordError
+                      ? "border-red-500 shake"
+                      : "border-gray-300"
+                  }`}
+                />
+                {failPasswordError && (
+                  <p className="text-red-500 text-sm text-center">
+                    Incorrect password. Try again!
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={handleFailPasswordSubmit}
+                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg"
+              >
+                Continue
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="max-w-2xl w-full space-y-6 py-8">
         {/* Header */}
@@ -319,7 +401,7 @@ export function Connections() {
 
         {/* Mistakes Counter */}
         {allWords.length > 0 && (
-          <div className="text-center">
+          <div className="text-center space-y-2">
             <p className="text-sm text-gray-600">
               Mistakes remaining:{" "}
               <span className="font-bold">
@@ -339,6 +421,16 @@ export function Connections() {
                 )}
               </span>
             </p>
+            {/* One Away Hint */}
+            {showOneAway && !gameComplete && !gameFailed && (
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="bg-rose-100 border-2 border-rose-300 text-rose-700 px-6 py-2 rounded-lg font-bold text-lg inline-block"
+              >
+                One away!
+              </motion.div>
+            )}
           </div>
         )}
 

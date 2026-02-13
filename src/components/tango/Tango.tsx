@@ -447,7 +447,7 @@ export function Tango() {
                   gorgeous girl in the world. Because thats the
                   second thing i love about you! You are the
                   most beatiful girl i ever lied my eyes on and
-                  without a doubt the hottest. Girl everytime
+                   without a doubt the hottest. Girl everytime
                   you smile at me it gets hard for me to
                   breathe. Talking about hard...
                 </p>
@@ -573,11 +573,11 @@ export function Tango() {
                           disabled={gameWon || isLocked}
                           className={`w-11 h-11 border border-gray-300 transition-all relative ${
                             cell === "her"
-                              ? "bg-red-200"
+                              ? isLocked ? "bg-pink-300" : "bg-red-200"
                               : cell === "him"
-                                ? "bg-blue-200"
+                                ? isLocked ? "bg-blue-300" : "bg-blue-200"
                                 : "bg-gray-50 hover:bg-gray-100"
-                          } ${isLocked ? "ring-2 ring-purple-400" : ""} ${gameWon || isLocked ? "cursor-default" : "active:scale-95 cursor-pointer"}`}
+                          } ${gameWon || isLocked ? "cursor-default" : "active:scale-95 cursor-pointer"}`}
                         >
                           {cell === "her" && (
                             <div className="w-full h-full flex items-center justify-center">
@@ -677,9 +677,6 @@ export function Tango() {
               Click empty cells to cycle: Empty → Jules → Lor →
               Empty
             </p>
-            <p className="text-xs text-purple-600 mt-1">
-              Purple border = starting clues (locked)
-            </p>
           </div>
 
           {errors.size > 0 && !gameWon && (
@@ -695,12 +692,6 @@ export function Tango() {
               className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-gray-600 transition-colors"
             >
               <RotateCcw className="w-4 h-4" /> Reset
-            </button>
-            <button
-              onClick={showSolution}
-              className="bg-purple-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-600 transition-colors text-sm"
-            >
-              Show Solution
             </button>
           </div>
         </div>
