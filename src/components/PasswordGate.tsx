@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { motion, AnimatePresence } from 'motion/react';
-import { Heart } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { motion, AnimatePresence } from "motion/react";
+import { Heart } from "lucide-react";
 
 export function PasswordGate() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [attempts, setAttempts] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [isUnlocking, setIsUnlocking] = useState(false);
@@ -12,23 +12,25 @@ export function PasswordGate() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (password.toLowerCase() === 'boobies') {
+
+    if (password.toLowerCase() === "boobies") {
       setIsUnlocking(true);
       // Play door sound
-      const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+      const audio = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3",
+      );
       audio.play().catch(() => {});
-      
+
       // Navigate after animation
       setTimeout(() => {
-        navigate('/quiz-1');
+        navigate("/quiz-1");
       }, 2000);
     } else {
-      setAttempts(prev => prev + 1);
+      setAttempts((prev) => prev + 1);
       if (attempts === 0) {
         setShowHint(true);
       }
-      setPassword('');
+      setPassword("");
     }
   };
 
@@ -42,21 +44,29 @@ export function PasswordGate() {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, ease: "easeInOut" }}
-              style={{ transformOrigin: 'center' }}
+              style={{ transformOrigin: "center" }}
             />
             <motion.div
               className="fixed left-0 top-0 bottom-0 w-1/2 bg-gradient-to-r from-red-900 to-pink-800 z-50 border-r-4 border-yellow-600"
               initial={{ x: 0 }}
-              animate={{ x: '-100%' }}
-              transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
+              animate={{ x: "-100%" }}
+              transition={{
+                duration: 1.5,
+                delay: 0.3,
+                ease: "easeInOut",
+              }}
             >
               <div className="absolute right-8 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-yellow-600" />
             </motion.div>
             <motion.div
               className="fixed right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-red-900 to-pink-800 z-50 border-l-4 border-yellow-600"
               initial={{ x: 0 }}
-              animate={{ x: '100%' }}
-              transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
+              animate={{ x: "100%" }}
+              transition={{
+                duration: 1.5,
+                delay: 0.3,
+                ease: "easeInOut",
+              }}
             >
               <div className="absolute left-8 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-yellow-600" />
             </motion.div>
@@ -81,14 +91,24 @@ export function PasswordGate() {
             Happy Valentine's Day! 💕
           </h1>
           <p className="text-gray-700 leading-relaxed">
-            Welcome to your special Valentine's Daily Quizzes! Get ready to discover the five things I love most about you.
+            Helloooo Baby. How are you this morning?. I made a
+            little something for you and i'm crazy excited to
+            show you.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Enter the password to play your Valentine's Dailys and find out the five things I love most about you!
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Those are not only Games it's a gamified
+              compliment. It's a way for me to say i love you.
+              It's a chance to appreciate and adore you.{" "}
+              <strong>
+                It's 5 things i love most about you!
+              </strong>
             </label>
             <input
               id="password"

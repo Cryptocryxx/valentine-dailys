@@ -585,10 +585,6 @@ export function Queens() {
                   const hasQueen = queens.has(key);
                   const hasXMark = xMarks.has(key);
                   const isInvalid = invalidCell === key;
-                  const isHighlighted = isInHoveredRowOrCol(
-                    rowIndex,
-                    colIndex,
-                  );
 
                   return (
                     <motion.button
@@ -617,7 +613,6 @@ export function Queens() {
                         border border-gray-400
                         relative overflow-hidden
                         transition-all duration-200
-                        ${isHighlighted ? "ring-2 ring-rose-400" : ""}
                         ${hasQueen ? "ring-2 ring-rose-500" : ""}
                         hover:brightness-95
                         cursor-pointer

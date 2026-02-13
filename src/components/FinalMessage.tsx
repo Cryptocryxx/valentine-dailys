@@ -34,7 +34,12 @@ export function FinalMessage() {
           excuse! You made this Erasmus what it was and i could
           not imagine a world where i wouldn't have met you
           there and i'm sooooo fucking glad that we met in the
-          first week and not at the end or something
+          first week and not at the end or something. And of
+          course i love everything about you and it's so much
+          more than just 5 things but i don't have the time or
+          creativity to make a game for every single thing i
+          love about you because i would not do anything else in
+          my life.
         </h2>
 
         <div className="mb-8 space-y-4 text-left">
